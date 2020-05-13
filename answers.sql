@@ -57,7 +57,7 @@ WHERE go.teamid
 ='GER';
 
 -- Show the team1, team2 and player for every goal scored by a player called Mario player LIKE 'Mario%'
-SELECT ga.team1, ga.team2,       go.player
+SELECT ga.team1, ga.team2,           go.player
 FROM goal go
 JOIN  game ga
 on go.matchid
@@ -100,10 +100,24 @@ FROM goal
 GROUP BY stadium;
 
 -- For every match involving 'POL', show the matchid, date and the number of goals scored.
-SELECT matchid, mdate, count(player)
+SELECT matchid, mdate, COUNT(player) goals
 FROM game JOIN goal ON matchid = id
 WHERE (team1 = 'POL' OR team2 = 'POL')
 GROUP BY matchid;
 
+-- For every match where 'GER' scored, show matchid, match date and the number of goals scored by 'GER'
+SELECT matchid, mdate, COUNT(player) germany_goals
+FROM goal
+    JOIN game ON matchid = id
+WHERE (team1 = 'GER' OR team2='GER') AND teamid='GER'
+GROUP BY matchid;
 
+-- Sort your result by mdate, matchid, team1 and team2
+SELECT mdate,
+    team1,
+    SUM(CASE WHEN teamid=team1 THEN 1 ELSE 0 END) score1,
+    team2,
+    SUM(CASE WHEN teamid=team2 THEN 1 ELSE 0 END) score2
+FROM game JOIN goal ON matchid = id
+GROUP BY mdate, matchid, team1, team2;
 
