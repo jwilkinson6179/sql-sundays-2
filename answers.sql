@@ -57,7 +57,7 @@ WHERE go.teamid
 ='GER';
 
 -- Show the team1, team2 and player for every goal scored by a player called Mario player LIKE 'Mario%'
-SELECT ga.team1, ga.team2,   go.player
+SELECT ga.team1, ga.team2,    go.player
 FROM goal go
 JOIN  game ga
 on go.matchid
@@ -70,3 +70,17 @@ SELECT player, teamid, coach, gtime
 FROM goal
     JOIN eteam ON teamid=id
 WHERE gtime<=10;
+
+-- List the dates of the matches and the name of the team in which 'Fernando Santos' was the team1 coach.
+SELECT g.mdate, t.teamname
+FROM game g
+    JOIN eteam t ON team1=t.id
+WHERE coach='Fernando Santos';
+
+-- List the player for every goal scored in a game where the stadium was 'National Stadium, Warsaw'
+SELECT player
+FROM goal
+    JOIN game ON matchid=id
+WHERE stadium='National Stadium, Warsaw';
+
+-- Instead show the name of all players who scored a goal against Germany.
