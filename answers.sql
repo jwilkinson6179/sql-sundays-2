@@ -34,3 +34,12 @@ GROUP BY p.product
 ORDER BY most_ordered DESC;
 
 
+
+-- Practice from https://sqlzoo.net/wiki/The_JOIN_operation
+-- Modify it to show the matchid and player name for all goals scored by Germany. 
+-- To identify German players, check for: teamid = 'GER'
+SELECT g.matchid, g.player
+FROM goal g
+WHERE g.teamid='GER';
+
+-- Show id, stadium, team1, team2 for just game 1012
