@@ -41,6 +41,14 @@ WHERE COUNTRYCODE='JPN';
 SELECT CITY, STATE
 FROM STATION;
 
+-- Query the following two values from the STATION table:
+-- The sum of all values in LAT_N rounded to a scale of  decimal places.
+-- The sum of all values in LONG_W rounded to a scale of  decimal places.
+SELECT
+    CAST(SUM(LAT_N) AS DECIMAL(7,2)),
+    CAST(SUM(LONG_W) AS DECIMAL(7,2))
+FROM STATION;
+
 -- Query a list of CITY names from STATION with even ID numbers only. 
 -- You may print the results in any order, but must exclude duplicates from your answer.
 SELECT DISTINCT CITY
@@ -62,3 +70,21 @@ SELECT DISTINCT CITY
 FROM STATION
 WHERE CITY
 REGEXP "^[aeiou].*";
+
+-- Query the list of CITY names from STATION that do not end with vowels. Your result cannot contain duplicates.
+SELECT DISTINCT CITY
+FROM STATION
+WHERE CITY
+REGEXP "[^aeiou]$";
+
+SELECT DISTINCT CITY
+FROM STATION
+WHERE CITY
+NOT REGEXP "[aeiou]$";
+
+-- https://www.hackerrank.com/challenges/the-report/problem
+SELECT (CASE WHEN GRADE <8 THEN NULL ELSE name END) name, GRADE, MARKS
+FROM STUDENTS, GRADES
+WHERE MARKS BETWEEN Min_Mark and Max_Mark
+ORDER BY GRADE DESC, name, GRADE, MARKS;
+
