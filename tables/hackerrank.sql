@@ -43,3 +43,22 @@ FROM STATION;
 
 -- Query a list of CITY names from STATION with even ID numbers only. 
 -- You may print the results in any order, but must exclude duplicates from your answer.
+SELECT DISTINCT CITY
+FROM STATION
+WHERE MOD(ID, 2) = 0;
+
+SELECT DISTINCT CITY
+FROM STATION
+WHERE ID%2 = 0;
+
+-- Let  be the number of CITY entries in STATION, and let  be the number of distinct CITY names in STATION; 
+-- query the value of  from STATION. In other words, find the difference between 
+-- the total number of CITY entries in the table and the number of distinct CITY entries in the table.
+SELECT COUNT(CITY) - COUNT(DISTINCT CITY)
+FROM STATION;
+
+-- Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from STATION. Your result cannot contain duplicates.
+SELECT DISTINCT CITY
+FROM STATION
+WHERE CITY
+REGEXP "^[aeiou].*";
