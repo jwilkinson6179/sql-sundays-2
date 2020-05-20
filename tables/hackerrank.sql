@@ -115,9 +115,75 @@ FROM STATION
 WHERE CITY
 REGEXP "^[^AEIOU].*[^aeiou]$";
 
+-- Query the two cities in STATION with the shortest and longest CITY names, as well as their respective lengths 
+-- (i.e.: number of characters in the name). If there is more than one smallest or largest city, 
+-- choose the one that comes first when ordered alphabetically.
+SELECT CITY, LENGTH(CITY)
+FROM STATION
+ORDER BY LENGTH(CITY) ASC,CITY ASC LIMIT 1;
+SELECT CITY
+,LENGTH
+(CITY) FROM STATION ORDER BY LENGTH
+(CITY) DESC,CITY DESC LIMIT 1;
+
 -- https://www.hackerrank.com/challenges/the-report/problem
 SELECT (CASE WHEN GRADE <8 THEN NULL ELSE name END) name, GRADE, MARKS
 FROM STUDENTS, GRADES
 WHERE MARKS BETWEEN Min_Mark and Max_Mark
 ORDER BY GRADE DESC, name, GRADE, MARKS;
 
+-- Given table STUDENTS with following columns
+-- (ID, NAME, MARKS)(INTEGER, STRING, INTEGER)
+-- =============================================================================================================================
+
+-- Query the Name of any student in STUDENTS who scored higher than  Marks. 
+-- Order your output by the last three characters of each name. 
+-- If two or more students both have names ending in the same last three 
+-- characters (i.e.: Bobby, Robby, etc.), secondary sort them by ascending ID.
+SELECT NAME
+FROM STUDENTS
+WHERE MARKS > 75
+ORDER BY RIGHT(NAME, 3), ID;
+
+-- Given table Employee with following columns
+-- (employee_id, name, months, salary)(Integer, String, Integer, Integer)
+-- =============================================================================================================================
+
+-- Write a query that prints a list of employee names (i.e.: the name attribute) from the Employee table in alphabetical order.
+SELECT name
+FROM Employee
+ORDER BY name;
+
+-- Write a query that prints a list of employee names (i.e.: the name attribute) for employees 
+-- in Employee having a salary greater than 2000 per month who have been employees for less than 10 months. 
+-- Sort your result by ascending employee_id.
+SELECT name
+FROM Employee
+WHERE salary > 2000
+    AND months < 10;
+
+-- Write a query identifying the type of each record in the TRIANGLES table using its three side lengths. 
+-- Output one of the following statements for each record in the table:
+-- Equilateral: It's a triangle with sides 3 of equal length.
+-- Isosceles: It's a triangle with sides of 2 equal length.
+-- Scalene: It's a triangle with sides of differing lengths.
+-- Not A Triangle: The given values of A, B, and C don't form a triangle.
+-- Table TRIANGLES(A,B,C)(Integer, Integer, Integer)
+SELECT CASE WHEN A + B <= C OR A + C <= B OR B + C <= A THEN 'Not A Triangle'
+            WHEN A = B AND B = C THEN 'Equilateral'
+            WHEN A = B OR A = C OR B = C THEN 'Isosceles'
+            ELSE 'Scalene'
+        END
+FROM TRIANGLES;
+
+
+-- Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. 
+-- The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
+-- Note: Print NULL when there are no more names corresponding to an occupation.
+-- The first column is an alphabetically ordered list of Doctor names.
+-- The second column is an alphabetically ordered list of Professor names.
+-- The third column is an alphabetically ordered list of Singer names.
+-- The fourth column is an alphabetically ordered list of Actor names.
+-- The empty cell data for columns with less than the maximum number of names per 
+-- occupation (in this case, the Professor and Actor columns) are filled with NULL values.
+-- Table OCCUPATIONS(NAME. COLUMN)(String, String)
