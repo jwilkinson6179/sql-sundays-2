@@ -160,6 +160,41 @@ FROM STUDENTS, GRADES
 WHERE MARKS BETWEEN Min_Mark and Max_Mark
 ORDER BY GRADE DESC, name, GRADE, MARKS;
 
+-- Query the sum of Northern Latitudes (LAT_N) from STATION having values greater than 38.7880 and 
+-- less than 137.2345 Truncate your answer to  decimal places.
+SELECT ROUND(SUM(LAT_N), 4)
+FROM STATION
+WHERE LAT_N BETWEEN 38.7880 AND 137.2345;
+
+-- Query the greatest value of the Northern Latitudes (LAT_N) from STATION that is less than 137.2345 
+-- Truncate your answer to 4 decimal places.
+SELECT ROUND(MAX(LAT_N), 4)
+FROM STATION
+WHERE LAT_N < 137.2345;
+
+-- Query the Western Longitude (LONG_W) for the largest Northern Latitude (LAT_N) in STATION that is less than 137.2345. 
+-- Round your answer to 4 decimal places.
+SELECT ROUND(LONG_W,4)
+FROM STATION
+WHERE LAT_N < 137.2345
+ORDER BY LAT_N DESC
+LIMIT 1;
+
+-- Query the smallest Northern Latitude (LAT_N) from STATION that is greater than 38.7880 Round your answer to 4 decimal places.
+SELECT ROUND
+(LAT_N, 4)
+FROM STATION
+WHERE LAT_N > 38.7880
+ORDER BY LAT_N ASC
+LIMIT 1;
+
+-- Query the Western Longitude (LONG_W)where the smallest Northern Latitude (LAT_N) in STATION is greater than 38.7880. Round your answer to 4 decimal places.
+SELECT ROUND(LONG_W, 4)
+FROM STATION
+WHERE LAT_N > 38.7880
+ORDER BY LAT_N ASC
+LIMIT 1;
+
 -- Given table STUDENTS with following columns
 -- (ID, NAME, MARKS)(INTEGER, STRING, INTEGER)
 -- =============================================================================================================================
@@ -171,7 +206,8 @@ ORDER BY GRADE DESC, name, GRADE, MARKS;
 SELECT NAME
 FROM STUDENTS
 WHERE MARKS > 75
-ORDER BY RIGHT(NAME, 3), ID;
+ORDER BY RIGHT
+(NAME, 3), ID;
 
 -- Given table Employee with following columns
 -- (employee_id, name, months, salary)(Integer, String, Integer, Integer)
@@ -204,6 +240,21 @@ SELECT CASE WHEN A + B <= C OR A + C <= B OR B + C <= A THEN 'Not A Triangle'
         END
 FROM TRIANGLES;
 
+-- Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table, 
+-- but did not realize her keyboard's 0 key was broken until after completing the calculation. 
+-- She wants your help finding the difference between her miscalculation (using salaries with any zeroes removed), and the actual average salary.
+-- Write a query calculating the amount of error (i.e.: actual-miscalculated average monthly salaries), and round it up to the next integer.
+SELECT CEIL(AVG(SALARY) - AVG(REPLACE(SALARY,'0','')))
+FROM EMPLOYEES;
+
+-- We define an employee's total earnings to be their monthly salary x months worked, and the maximum total earnings to be the maximum total earnings 
+-- for any employee in the Employee table. Write a query to find the maximum total earnings for all employees as well as the total number 
+-- of employees who have maximum total earnings. Then print these values as  space-separated integers.
+SELECT salary*months as earnings, COUNT(*)
+from Employee
+GROUP BY earnings
+ORDER BY earnings DESC
+limit 1;
 
 -- Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. 
 -- The output column headers should be Doctor, Professor, Singer, and Actor, respectively.
