@@ -195,6 +195,32 @@ WHERE LAT_N > 38.7880
 ORDER BY LAT_N ASC
 LIMIT 1;
 
+-- Consider P1(a,b) and P2(c,d) to be two points on a 2D plane.
+-- a happens to equal the minimum value in Northern Latitude (LAT_N in STATION).
+-- b happens to equal the minimum value in Western Longitude (LONG_W in STATION).
+-- c happens to equal the maximum value in Northern Latitude (LAT_N in STATION).
+-- d happens to equal the maximum value in Western Longitude (LONG_W in STATION).
+-- Query the Manhattan Distance between points P1 and P1 and round it to a scale of 4 decimal places.
+-- The Manhattan distance between two points measured along axes at right angles. In a plane with p1 at (x1, y1) 
+-- and p2 at (x2, y2), it is |x1 - x2| + |y1 - y2|.
+SELECT ROUND
+(ABS
+(MIN
+(LAT_N) - MAX
+(LAT_N)) + ABS
+(MIN
+(LONG_W) - MAX
+(LONG_W)),4) 
+FROM STATION;
+
+-- Consider P1(a,b) and P2(c,d) to be two points on a 2D plane where (a,b) are the respective minimum and maximum values of Northern Latitude (LAT_N) 
+-- and (c,d) are the respective minimum and maximum values of Western Longitude (LONG_W) in STATION
+-- Query the Euclidean Distance between points P1 and P2 and format your answer to display 4 decimal digits.
+-- Equation is sqrt((a-b)^2 + (c-d)^2)
+SELECT ROUND(SQRT(POWER(MIN(LAT_N)-MAX(LAT_N),2)+POWER(MIN(LONG_W)-MAX(LONG_W),2)),4)
+FROM STATION;
+
+
 -- Given table STUDENTS with following columns
 -- (ID, NAME, MARKS)(INTEGER, STRING, INTEGER)
 -- =============================================================================================================================
@@ -266,3 +292,27 @@ limit 1;
 -- The empty cell data for columns with less than the maximum number of names per 
 -- occupation (in this case, the Professor and Actor columns) are filled with NULL values.
 -- Table OCCUPATIONS(NAME. COLUMN)(String, String)
+
+
+-- Given Table CITY(ID, NAME, COUNTRYCODE, DISTRICT, POPULATION)(NUMBER, VARCHAR, VARCHAR, VARCHAR, NUMBER)
+-- Given Table COUNTRY(CODE, NAME, CONTINENT, REGION, SURFACEAREA, INDEPYEAR, POPULATION....)
+-- Asian Population https://www.hackerrank.com/challenges/asian-population/problem
+-- Given the CITY and COUNTRY tables, query the sum of the populations of all cities where the CONTINENT is 'Asia'.
+SELECT SUM
+(CITY.POPULATION)
+FROM CITY
+JOIN COUNTRY ON CITY.COUNTRYCODE = COUNTRY.CODE
+WHERE CONTINENT = 'Asia';
+
+-- Given the CITY and COUNTRY tables, query the names of all cities where the CONTINENT is 'Africa'.
+SELECT CITY.NAME
+FROM CITY
+    JOIN COUNTRY ON CODE = COUNTRYCODE
+WHERE CONTINENT = 'Africa';
+
+-- Given the CITY and COUNTRY tables, query the names of all the continents (COUNTRY.Continent) 
+-- and their respective average city populations (CITY.Population) rounded down to the nearest integer.
+SELECT COUNTRY.CONTINENT, FLOOR(AVG(CITY.POPULATION))
+FROM CITY
+    JOIN COUNTRY ON COUNTRYCODE = CODE
+GROUP BY CONTINENT;
